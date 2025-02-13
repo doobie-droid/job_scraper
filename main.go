@@ -1,7 +1,9 @@
 package main
 
-import "doobie-droid/job-scraper/platforms"
+import (
+	"doobie-droid/job-scraper/platforms"
+)
 
 func main() {
-	platforms.WeWorkRemotely()
+	platforms.LinkedIn()
 }

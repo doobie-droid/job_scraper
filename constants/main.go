@@ -1,0 +1,7 @@
+package constants
+
+const RAPID_API_ENV_KEY = "RAPID_API_KEY"
+const RAPID_API_ENV_URL = "RAPID_API_URL"
+const RAPID_API_LINKEDIN_LOCATION_ID = "105365761"
+const RAPID_DATE_POSTED = "pastWeek"
+const JOB_KEYWORD = "laravel"
