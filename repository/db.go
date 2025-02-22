@@ -5,8 +5,6 @@ import (
 	"doobie-droid/job-scraper/constants"
 	"doobie-droid/job-scraper/utilities"
 	"fmt"
-	"time"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -22,7 +20,7 @@ func openDB(dsn string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	db.SetConnMaxLifetime(time.Minute * constants.DB_TIMEOUT_IN_MINUTES)
+	db.SetConnMaxLifetime(constants.DB_TIMEOUT)
 	db.SetMaxOpenConns(constants.MAX_OPEN_CONNECTIONS)
 	db.SetMaxIdleConns(constants.MAX_IDLE_CONNECTIONS)
 

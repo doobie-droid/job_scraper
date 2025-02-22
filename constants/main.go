@@ -1,10 +1,13 @@
 package constants
 
+import "time"
+
 const RAPID_API_ENV_KEY = "RAPID_API_KEY"
 const RAPID_API_ENV_URL = "RAPID_API_URL"
 const RAPID_API_LINKEDIN_LOCATION_ID = "105365761"
 const RAPID_DATE_POSTED = "pastWeek"
-const JOB_KEYWORD = "laravel"
+const JOB_KEYWORD = "golang"
 const MAX_OPEN_CONNECTIONS = 10
 const MAX_IDLE_CONNECTIONS = 10
-const DB_TIMEOUT_IN_MINUTES = 3
+const DB_TIMEOUT = 3 * time.Second
+const VALID_KEYWORDS_ENV_KEY = "VALID_KEYWORDS"
