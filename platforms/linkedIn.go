@@ -4,7 +4,6 @@ import (
 	"doobie-droid/job-scraper/constants"
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
-	"doobie-droid/job-scraper/utilities"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,12 +14,15 @@ import (
 func LinkedInUsingRapidApi() []*data.Job {
 	jobRepo := job.NewJobConnection()
 	_ = jobRepo
-	url := fmt.Sprintf("https://linkedin-data-api.p.rapidapi.com/search-jobs?keywords=%s&locationId=%s&datePosted=%s", constants.JOB_KEYWORD, constants.RAPID_API_LINKEDIN_LOCATION_ID, constants.RAPID_DATE_POSTED)
-	// url := "http://localhost:8000/api/v1/ping"
+	url := fmt.Sprintf("https://linkedin-data-api.p.rapidapi.com/search-job?%s&%s&%s",
+		fmt.Sprint("keywords=", constants.JOB_KEYWORD),
+		fmt.Sprint("locationID=", constants.GetLocationId()),
+		fmt.Sprint("datePosted=", constants.DATE_POSTED),
+	)
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.Header.Add("x-rapidapi-key", utilities.GetEnv(constants.RAPID_API_ENV_KEY))
-	req.Header.Add("x-rapidapi-host", utilities.GetEnv(constants.RAPID_API_ENV_URL))
+	req.Header.Add("x-rapidapi-key", constants.RAPID_API_KEY)
+	req.Header.Add("x-rapidapi-host", constants.RAPID_API_URL)
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
