@@ -30,7 +30,6 @@ func LinkedInUsingRapidApi() []*data.Job {
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
 	resBody := string(body)
-	fmt.Println(resBody)
 
 	var response data.Response[data.Job]
 	if err := json.Unmarshal([]byte(resBody), &response); err != nil {
