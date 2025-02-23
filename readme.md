@@ -15,6 +15,52 @@
   </p>
 </div>
 
+## About The Project
+
+There are a few websites that provide custom solutions to scrape a bunch of job related apis. However, most of these sites/platforms require a subscription of some sorts. The matter becomes worse, when the subscription is paid in dollars and a lot of countries have individuals with credit cards that do not allow dollar payments.
+I decided to build a job scraper pooling data from
+
+1. [Linkedin](https://linkedin.com) -> data from linkedin is pooled using rapid api's api and also using a dedicated web scraper to search using the keywords listed in the .env
+
+### Prerequisites
+
+| Tool   | Version |
+| ------ | ------- |
+| Golang | ^1.23.4 |
+| MySQL  | ^5.7    |
+
+## Installation
+
+1. Install dependencies in go
+
+   ```
+   go mod tidy
+   ```
+
+2. Run database migrations in mysql
+
+- Log in to mysql
+
+  ```
+  mysql -u <username> -p
+
+  ```
+
+- Enter your password in the empty screen
+- Run the command
+  ```
+  create database job_scraper;
+  ```
+- Run the migrations file whilst in the mysql shell
+  ```
+  SOURCE ./sql/job_migration.sql
+  ```
+
+3. Run the application
+   ```
+   go run .
+   ```
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 

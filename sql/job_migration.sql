@@ -2,6 +2,8 @@
 -- MySQL database dump
 --
 -- Dumped from database version 5.7 (Ubuntu 22.)
+USE job_scraper;
+
 CREATE TABLE jobs (
     id INT NOT NULL AUTO_INCREMENT,
     url VARCHAR(255) NOT NULL,
