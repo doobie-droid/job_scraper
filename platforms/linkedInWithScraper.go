@@ -16,9 +16,9 @@ import (
 )
 
 var linkedInJobUrl = fmt.Sprintf("https://www.linkedin.com/jobs/search/?%s&%s&%s&%s",
-	fmt.Sprint("f_WT=", constants.GetLocationType()),
-	fmt.Sprint("f_TPR=", constants.GetDurationCode()),
-	fmt.Sprint("geoId=", constants.GetLocationId()),
+	fmt.Sprint("f_WT=", constants.GetLinkedInLocationType()),
+	fmt.Sprint("f_TPR=", constants.GetLinkedInDurationCode()),
+	fmt.Sprint("geoId=", constants.GetLinkedInLocationId()),
 	fmt.Sprint("keywords=", constants.JOB_KEYWORD),
 )
 var pictureAvatarDisplay = "#ember17"

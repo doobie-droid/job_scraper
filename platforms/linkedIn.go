@@ -16,7 +16,7 @@ func LinkedInUsingRapidApi() []*data.Job {
 	_ = jobRepo
 	url := fmt.Sprintf("https://linkedin-data-api.p.rapidapi.com/search-job?%s&%s&%s",
 		fmt.Sprint("keywords=", constants.JOB_KEYWORD),
-		fmt.Sprint("locationID=", constants.GetLocationId()),
+		fmt.Sprint("locationID=", constants.GetLinkedInLocationId()),
 		fmt.Sprint("datePosted=", constants.DATE_POSTED),
 	)
 	req, _ := http.NewRequest("GET", url, nil)
