@@ -4,6 +4,8 @@
 -- Dumped from database version 5.7 (Ubuntu 22.)
 USE job_scraper;
 
+-- TODO
+-- ADD DOCKER TO PROJECT FOR EASY SETUP AND UPDATE README FILE WHEN YOU ADD DOCKER
 CREATE TABLE jobs (
     id INT NOT NULL AUTO_INCREMENT,
     url VARCHAR(255) NOT NULL,
