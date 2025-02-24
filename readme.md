@@ -18,6 +18,7 @@
 ## About The Project
 
 There are a few websites that provide custom solutions to scrape a bunch of job related apis. However, most of these sites/platforms require a subscription of some sorts. The matter becomes worse, when the subscription is paid in dollars and a lot of countries have individuals with credit cards that do not allow dollar payments.
+
 I decided to build a job scraper pooling data from the following [SOURCES](./platforms/readme.md)
 
 ### Prerequisites
