@@ -15,7 +15,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-var jobUrl = fmt.Sprintf("https://www.linkedin.com/jobs/search/?%s&%s&%s&%s",
+var linkedInJobUrl = fmt.Sprintf("https://www.linkedin.com/jobs/search/?%s&%s&%s&%s",
 	fmt.Sprint("f_WT=", constants.GetLocationType()),
 	fmt.Sprint("f_TPR=", constants.GetDurationCode()),
 	fmt.Sprint("geoId=", constants.GetLocationId()),
@@ -78,7 +78,7 @@ func getCountOfAvailableJobs(ctx context.Context) (int, error) {
 	var availableJobsElement = "div.jobs-search-results-list__subtitle span"
 	var availableJobs string
 	err := chromedp.Run(ctx,
-		chromedp.Navigate(jobUrl),
+		chromedp.Navigate(linkedInJobUrl),
 		chromedp.Sleep(10*time.Second),
 		chromedp.WaitVisible(pictureAvatarDisplay),
 		chromedp.Text(availableJobsElement, &availableJobs),
@@ -121,7 +121,6 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 		if err != nil {
 			fmt.Println("error extracting job details", err)
 		}
-		fmt.Println(currentURL)
 		job := data.Job{
 			Platform: data.LinkedIn,
 			Title:    jobTitle,
@@ -129,7 +128,6 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 			URL:      getValidUrl(currentURL),
 			Location: jobLocation,
 		}
-		fmt.Println(job)
 		if jobRepo.Exists(&job) {
 			continue
 		}
@@ -137,7 +135,6 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 		if job.IsValid() {
 			listOfValidJobs = append(listOfValidJobs, &job)
 		}
-		fmt.Println(jobDetails[:200])
 	}
 	return listOfValidJobs
 }
