@@ -6,22 +6,15 @@ import (
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/chromedp/chromedp"
 )
 
-var workableJobUrl = fmt.Sprintf("https://jobs.workable.com/search?%s&%s&%s",
-	fmt.Sprintf("location=%s", constants.CITY),
-	fmt.Sprintf("day_range=%s", constants.GetWorkableDurationCode()),
-	fmt.Sprintf("workplace=%s", strings.ToLower(constants.LOCATION_TYPE)),
-)
+var RemoteAfricaUrl = "https://remoteafrica.io/"
 
-func Workable() []*data.Job {
-	userDataDir := "./chromedp-profile"
+func RemoteAfrica() []*data.Job {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.UserDataDir(userDataDir),
 		chromedp.Flag("headless", false),
 		chromedp.Flag("start-maximized", true),
 	)
@@ -32,46 +25,36 @@ func Workable() []*data.Job {
 	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
 
-	countOfValidJobs, err := getCountOfAvailableWorkableJobs(ctx)
+	countOfValidJobs, err := getCountOfAvailableRemoteAfricaJobs(ctx)
+	fmt.Println(countOfValidJobs)
 	if err != nil {
-		fmt.Println("we could not get count of available jobs:", err)
+		fmt.Println("we could not get count of available remote africa jobs:", err)
 	}
-	return getListOfValidWorkableJobs(countOfValidJobs, ctx)
+
+	return getListOfValidRemoteAfricaJobs(countOfValidJobs, ctx)
 }
 
-func getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
-	listOfValidJobs := []*data.Job{}
-	showMoreButton := "button.secondary__default--2ySVn"
-	jobTitleDiv := "a.jobCardDetails__link--fXxEi"
-	jobUrlLink := "a.jobCard__overlay--29JV5"
-	companyLink := "a.companyName__link--2ntbf"
+func getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
+	var listOfValidJobs []*data.Job
 	jobRepo := job.NewJobConnection()
 	_ = jobRepo
-	var jobUrl, jobTitle, companyTitle string
+	jobTitleDiv := "a.sc-d603e0a4-0.hazAqL.fw-bold.align-items-center.flex-2.truncate"
+	jobUrlLink := jobTitleDiv
+	companyLink := "span.company-name"
+	var jobTitle, jobUrl, companyTitle string
 	for index := range countOfAvailableJobs {
-		if (index)%20 == 0 && index > 0 {
-			err := chromedp.Run(ctx,
-				chromedp.WaitReady(showMoreButton, chromedp.ByQuery),
-				chromedp.ScrollIntoView(showMoreButton),
-				chromedp.Sleep(3*time.Second),
-				chromedp.Click(showMoreButton),
-				chromedp.Sleep(2*time.Second),
-			)
-			if err != nil {
-				fmt.Println("could not view more,", err)
-			}
-		}
 		err := chromedp.Run(ctx,
 			chromedp.Evaluate(fmt.Sprintf("document.querySelectorAll('%s')[%d].textContent", jobTitleDiv, index), &jobTitle),
 			chromedp.Evaluate(fmt.Sprintf(`document.querySelectorAll('%s')[%d].href`, jobUrlLink, index), &jobUrl),
 			chromedp.Evaluate(fmt.Sprintf("document.querySelectorAll('%s')[%d].textContent", companyLink, index), &companyTitle),
 			chromedp.Sleep(2*time.Second),
 		)
+
 		if err != nil {
 			fmt.Println("could not read workable job:", err)
 		}
 		job := data.Job{
-			Platform: data.Workable,
+			Platform: data.RemoteAfrica,
 			Title:    jobTitle,
 			URL:      jobUrl,
 			Company:  data.Company{Name: companyTitle},
@@ -84,23 +67,29 @@ func getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) [
 		if job.IsValid() {
 			listOfValidJobs = append(listOfValidJobs, &job)
 		}
-
 	}
 	return listOfValidJobs
 }
 
-func getCountOfAvailableWorkableJobs(ctx context.Context) (int, error) {
-	var availableJobsElement = "div.jobsMasterDetailView__title--2bJIW"
+func getCountOfAvailableRemoteAfricaJobs(ctx context.Context) (int, error) {
+	searchBar := "input[name='query']"
+	availableJobsElement := "span.ais-Stats-text"
+	siteLogo := "a.navbar-brand"
+	buttonAtLevelOfInfiniteScroll := "a.sc-91f800c3-1"
 	var availableJobs string
 	err := chromedp.Run(ctx,
-		chromedp.Navigate(workableJobUrl),
-		chromedp.Sleep(10*time.Second),
-		chromedp.WaitVisible(availableJobsElement),
+		chromedp.Navigate(RemoteAfricaUrl),
+		chromedp.WaitVisible(siteLogo, chromedp.ByQuery),
+		chromedp.Sleep(5*time.Second),
+		chromedp.ScrollIntoView(buttonAtLevelOfInfiniteScroll),
+		chromedp.SendKeys(searchBar, constants.JOB_KEYWORD, chromedp.ByQuery),
+		chromedp.WaitVisible(availableJobsElement, chromedp.ByQuery),
+		chromedp.Sleep(5*time.Second),
 		chromedp.Text(availableJobsElement, &availableJobs),
 	)
+
 	if err != nil {
 		return 0, err
 	}
-
 	return getCount(availableJobs)
 }

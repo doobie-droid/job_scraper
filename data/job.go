@@ -3,6 +3,7 @@ package data
 import (
 	"doobie-droid/job-scraper/constants"
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -12,6 +13,7 @@ const (
 	WeWorkRemotely
 	TestGorilla
 	Workable
+	RemoteAfrica
 )
 
 type Job struct {
@@ -70,6 +72,12 @@ func (job *Job) GetSlug() string {
 		stringContainingId := urlAsArray[1]
 		stringContainingIdAsArray := strings.Split(stringContainingId, "/")
 		return stringContainingIdAsArray[0]
+	}
+
+	if job.Platform == RemoteAfrica {
+		urlAsArray := strings.Split(job.URL, "f/")
+		slug := urlAsArray[1]
+		return fmt.Sprintf("remote-africa-%s", slug)
 	}
 	return ""
 }
