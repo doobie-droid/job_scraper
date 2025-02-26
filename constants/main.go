@@ -27,6 +27,11 @@ func GetLinkedInDurationCode() string {
 
 }
 
+func GetWorkableDurationCode() string {
+	DurationOfPostingToDurationCode := map[string]string{"past24hours": "1", "pastweek": "7", "pastmonth": "30"}
+	return DurationOfPostingToDurationCode[strings.ToLower(DATE_POSTED)]
+}
+
 func GetLinkedInLocationId() string {
 	CountryCodeToLocationIds := map[string]string{"NGA": "105365761"}
 	return CountryCodeToLocationIds[strings.ToUpper(LOCATION)]

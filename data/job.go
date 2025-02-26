@@ -11,6 +11,7 @@ const (
 	LinkedIn = iota
 	WeWorkRemotely
 	TestGorilla
+	Workable
 )
 
 type Job struct {
@@ -62,6 +63,12 @@ func (job *Job) GetSlug() string {
 		urlAsArray := strings.Split(job.URL, "jobs/")
 		stringContainingId := urlAsArray[1]
 		stringContainingIdAsArray := strings.Split(stringContainingId, "-")
+		return stringContainingIdAsArray[0]
+	}
+	if job.Platform == Workable {
+		urlAsArray := strings.Split(job.URL, "view/")
+		stringContainingId := urlAsArray[1]
+		stringContainingIdAsArray := strings.Split(stringContainingId, "/")
 		return stringContainingIdAsArray[0]
 	}
 	return ""
