@@ -19,15 +19,8 @@ var testGorillaJobUrl = "https://www.testgorilla.com/careers"
 // # Todo: refactor all the platforms into their own independent packages with interfaces since you  can see
 // some methods that are repeated e.g. joburl, listofvalidjobs .etc
 func TestGorilla() []*data.Job {
-	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", false),
-		chromedp.Flag("start-maximized", true),
-	)
 
-	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
-	defer cancel()
-
-	ctx, cancel := chromedp.NewContext(allocCtx)
+	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
 	countOfAvailableJobs, err := getCountOfAvailableTestGorillaJobs(ctx)
