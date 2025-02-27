@@ -10,6 +10,8 @@ const MAX_OPEN_CONNECTIONS = 10
 const MAX_IDLE_CONNECTIONS = 10
 const DB_TIMEOUT = 3 * time.Second
 
+// TODO change GetENV to config usage
+
 var LINKEDIN_EMAIL = utilities.GetEnv("LINKEDIN_EMAIL")
 var LINKEDIN_PASSWORD = utilities.GetEnv("LINKEDIN_PASSWORD")
 var VALID_KEYWORDS = utilities.GetEnv("VALID_KEYWORDS")
