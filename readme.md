@@ -24,7 +24,7 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
 ### Prerequisites
 
 | Tool             | Version       |
-| ---------------- | ------------- |
+|------------------|---------------|
 | Golang           | ^1.23.4       |
 | MySQL            | ^5.7          |
 | Chromium-Browser | 133.0.6943.53 |
@@ -57,6 +57,15 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
   ```
 
 3. Run the application
+
+- Create your own .env file from the .env.example
+
+   ```
+    cp .env.example .env
+   ``` 
+
+- Start the app
+
    ```
    go run .
    ```
