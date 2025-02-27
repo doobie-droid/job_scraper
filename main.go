@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	validJobs := []*data.Job{}
+	var validJobs []*data.Job
 	// validJobs = append(validJobs, platforms.LinkedInUsingRapidApi()...)
 	// validJobs = append(validJobs, platforms.LinkedInWithScraper()...)
 	// validJobs = append(validJobs, platforms.TestGorilla()...)
