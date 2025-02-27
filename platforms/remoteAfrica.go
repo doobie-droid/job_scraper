@@ -11,6 +11,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
+// TODO add date checker that does not check past the date in the .env and also customize for infinite scroll
 var RemoteAfricaUrl = "https://remoteafrica.io/"
 
 func RemoteAfrica() []*data.Job {
