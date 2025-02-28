@@ -6,10 +6,10 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <br />
-<div align="center">
-  <h3 align="center">Job Scraper</h3>
+<div style="text-align:center;">
+  <h3 style="text-align:center;">Job Scraper</h3>
 
-  <p align="center">
+  <p style="text-align:center;">
     A job scraping repo to automate your job searches!
     <br />
   </p>
@@ -45,7 +45,6 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
 
   ```
   mysql -u <username> -p
-
   ```
 
 - Enter your password in the empty screen
@@ -57,7 +56,6 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
   ```
   SOURCE ./sql/job_migration.sql
   ```
-
 3. Run the application
 
 - Create your own .env file from the .env.example
@@ -79,7 +77,7 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
   ```
   go test
   ```
-  
+
 - Run all test recursively
 
   ```
