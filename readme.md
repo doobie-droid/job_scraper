@@ -90,6 +90,9 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
   go test -coverpkg=./... ./...
   ```
 
+- Run test with the verbose flag
+  ```go test -v```
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
