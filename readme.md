@@ -17,7 +17,9 @@
 
 ## About The Project
 
-There are a few websites that provide custom solutions to scrape a bunch of job related apis. However, most of these sites/platforms require a subscription of some sorts. The matter becomes worse, when the subscription is paid in dollars and a lot of countries have individuals with credit cards that do not allow dollar payments.
+There are a few websites that provide custom solutions to scrape a bunch of job related apis. However, most of these
+sites/platforms require a subscription of some sorts. The matter becomes worse, when the subscription is paid in dollars
+and a lot of countries have individuals with credit cards that do not allow dollar payments.
 
 I decided to build a job scraper pooling data from the following [SOURCES](./platforms/readme.md)
 
@@ -70,18 +72,49 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
    go run .
    ```
 
+## Running Test
+
+- Run the test within the package
+
+  ```
+  go test
+  ```
+  
+- Run all test recursively
+
+  ```
+  go test ./...
+  ```
+
+- Run all test recursively with coverage
+
+  ```
+  go test -coverpkg=./... ./...
+  ```
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [contributors-url]: https://github.com/doobie-droid/job_scraper/graphs/contributors
+
 [forks-shield]: https://img.shields.io/github/forks/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [forks-url]: https://github.com/doobie-droid/job_scraper/network/members
+
 [stars-shield]: https://img.shields.io/github/stars/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [stars-url]: https://github.com/doobie-droid/job_scraper/stargazers
+
 [issues-shield]: https://img.shields.io/github/issues/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [issues-url]: https://github.com/doobie-droid/job_scraper/issues
+
 [license-shield]: https://img.shields.io/github/license/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [license-url]: https://github.com/doobie-droid/job_scraper/blob/master/LICENSE
+
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+
 [linkedin-url]: https://www.linkedin.com/in/leslie-douglas-074a6112a/
