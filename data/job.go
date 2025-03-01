@@ -14,6 +14,7 @@ const (
 	TestGorilla
 	Workable
 	RemoteAfrica
+	GolangProjects
 )
 
 type Job struct {

@@ -12,7 +12,8 @@ func main() {
 	// validJobs = append(validJobs, platforms.LinkedInWithScraper()...)
 	// validJobs = append(validJobs, platforms.TestGorilla()...)
 	// validJobs = append(validJobs, platforms.Workable()...)
-	validJobs = append(validJobs, platforms.RemoteAfrica()...)
+	// validJobs = append(validJobs, platforms.RemoteAfrica()...)
+	validJobs = append(validJobs, platforms.GolangProjects()...)
 	fmt.Println("valid jobs")
 	for _, job := range validJobs {
 		fmt.Println(job.Title, job.URL)
