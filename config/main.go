@@ -21,6 +21,7 @@ type Config struct {
 	Location         string
 	LocationType     string
 	City             string
+	ValidLocations   string
 }
 
 func NewConfig() *Config {
@@ -36,6 +37,7 @@ func NewConfig() *Config {
 		Location:         GetEnvOrUseDefault("LOCATION", "NGA"),
 		LocationType:     GetEnvOrUseDefault("LOCATION_TYPE", "Remote"),
 		City:             GetEnvOrUseDefault("CITY", "LAGOS"),
+		ValidLocations:   GetEnvOrUseDefault("LOCATION_KEYWORDS", "Africa, Nigeria, Worldwide"),
 	}
 }
 

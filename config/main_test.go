@@ -48,4 +48,8 @@ func TestConfigInitialization(t *testing.T) {
 	if Cfg.City != "LAGOS" {
 		t.Errorf("Expected City to be 'LAGOS', got '%s'", Cfg.City)
 	}
+
+	if Cfg.ValidLocations != "Africa, Nigeria, Worldwide" {
+		t.Errorf("Expected Locations to be 'Africa, Nigeria, Worldwide', got '%s'", Cfg.ValidLocations)
+	}
 }
