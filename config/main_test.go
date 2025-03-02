@@ -45,7 +45,15 @@ func TestConfigInitialization(t *testing.T) {
 		t.Errorf("Expected City to be 'LAGOS', got '%s'", Cfg.City)
 	}
 
-	if Cfg.ValidLocations != "Africa, Nigeria, Worldwide" {
-		t.Errorf("Expected Locations to be 'Africa, Nigeria, Worldwide', got '%s'", Cfg.ValidLocations)
+	if Cfg.ValidLocations != "Africa, Nigeria" {
+		t.Errorf("Expected Locations to be 'Africa, Nigeria', got '%s'", Cfg.ValidLocations)
+	}
+
+	if Cfg.GoogleApiKey != "GOOGLE_API_KEY_VALUE" {
+		t.Errorf("Expected Api Key to be 'GOOGLE_API_KEY_VALUE', got %s", Cfg.GoogleApiKey)
+	}
+
+	if Cfg.SearchEngineId != "SEARCH_ENGINE_ID_VALUE" {
+		t.Errorf("Expected SEARCH ENGINE ID to be 'SEARCH_ENGINE_ID_VALUE', got %s", Cfg.SearchEngineId)
 	}
 }

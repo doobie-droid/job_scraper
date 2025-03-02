@@ -21,6 +21,8 @@ type Config struct {
 	LocationType     string
 	City             string
 	ValidLocations   string
+	GoogleApiKey     string
+	SearchEngineId   string
 }
 
 func NewConfig() *Config {
@@ -36,6 +38,8 @@ func NewConfig() *Config {
 		LocationType:     GetEnvOrUseDefault("LOCATION_TYPE", "Remote"),
 		City:             GetEnvOrUseDefault("CITY", "LAGOS"),
 		ValidLocations:   GetEnvOrUseDefault("LOCATION_KEYWORDS", "Africa, Nigeria, Worldwide"),
+		GoogleApiKey:     GetEnv("GOOGLE_API_KEY"),
+		SearchEngineId:   GetEnv("SEARCH_ENGINE_ID"),
 	}
 }
 
