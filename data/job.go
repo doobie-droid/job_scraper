@@ -1,7 +1,7 @@
 package data
 
 import (
-	"doobie-droid/job-scraper/constants"
+	"doobie-droid/job-scraper/config"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -84,7 +84,7 @@ func (job *Job) GetSlug() string {
 }
 
 func (job *Job) IsValid() bool {
-	validKeywords := constants.VALID_KEYWORDS
+	validKeywords := config.NewConfig().ValidKeywords
 	validKeywordsArray := strings.Split(validKeywords, ",")
 	for _, validJobKeyword := range validKeywordsArray {
 		if strings.Contains(strings.ToLower(job.Title), strings.ToLower(validJobKeyword)) {
