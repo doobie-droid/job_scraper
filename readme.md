@@ -6,10 +6,10 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <br />
-<div align="center">
-  <h3 align="center">Job Scraper</h3>
+<div style="text-align:center;">
+  <h3 style="text-align:center;">Job Scraper</h3>
 
-  <p align="center">
+  <p style="text-align:center;">
     A job scraping repo to automate your job searches!
     <br />
   </p>
@@ -17,7 +17,9 @@
 
 ## About The Project
 
-There are a few websites that provide custom solutions to scrape a bunch of job related apis. However, most of these sites/platforms require a subscription of some sorts. The matter becomes worse, when the subscription is paid in dollars and a lot of countries have individuals with credit cards that do not allow dollar payments.
+There are a few websites that provide custom solutions to scrape a bunch of job related apis. However, most of these
+sites/platforms require a subscription of some sorts. The matter becomes worse, when the subscription is paid in dollars
+and a lot of countries have individuals with credit cards that do not allow dollar payments.
 
 I decided to build a job scraper pooling data from the following [SOURCES](./platforms/readme.md)
 
@@ -36,14 +38,14 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
    ```
    go mod tidy
    ```
+2. [Setup Chrome Headless](https://medium.com/@osaswijojames/installing-chrome-headless-on-wsl-a-step-by-step-guide-for-automation-enthusiasts-0decea47f4c7)
 
-2. Run database migrations in mysql
+3. Run database migrations in mysql
 
 - Log in to mysql
 
   ```
   mysql -u <username> -p
-
   ```
 
 - Enter your password in the empty screen
@@ -55,8 +57,7 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
   ```
   SOURCE ./sql/job_migration.sql
   ```
-
-3. Run the application
+4. Run the application
 
 - Create your own .env file from the .env.example
 
@@ -70,18 +71,52 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
    go run .
    ```
 
+## Running Test
+
+- Run the test within the package
+
+  ```
+  go test
+  ```
+
+- Run all test recursively
+
+  ```
+  go test ./...
+  ```
+
+- Run all test recursively with coverage
+
+  ```
+  go test -coverpkg=./... ./...
+  ```
+
+- Run test with the verbose flag
+  ```go test -v```
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [contributors-url]: https://github.com/doobie-droid/job_scraper/graphs/contributors
+
 [forks-shield]: https://img.shields.io/github/forks/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [forks-url]: https://github.com/doobie-droid/job_scraper/network/members
+
 [stars-shield]: https://img.shields.io/github/stars/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [stars-url]: https://github.com/doobie-droid/job_scraper/stargazers
+
 [issues-shield]: https://img.shields.io/github/issues/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [issues-url]: https://github.com/doobie-droid/job_scraper/issues
+
 [license-shield]: https://img.shields.io/github/license/doobie-droid/job_scraper.svg?style=for-the-badge
+
 [license-url]: https://github.com/doobie-droid/job_scraper/blob/master/LICENSE
+
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+
 [linkedin-url]: https://www.linkedin.com/in/leslie-douglas-074a6112a/
