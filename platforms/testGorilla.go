@@ -18,7 +18,7 @@ var testGorillaJobUrl = "https://www.testgorilla.com/careers"
 
 // # Todo: refactor all the platforms into their own independent packages with interfaces since you  can see
 // some methods that are repeated e.g. joburl, listofvalidjobs .etc
-func TestGorilla() []*data.Job {
+func (platform *Platform) TestGorilla() []*data.Job {
 
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()

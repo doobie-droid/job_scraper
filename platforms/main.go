@@ -16,12 +16,13 @@ func GetValidJobs() []*data.Job {
 	config.EnvPath = EnvPath
 	platform.Cfg = *config.NewConfig()
 	var validJobs []*data.Job
-	// validJobs = append(validJobs, LinkedInUsingRapidApi()...)
-	// validJobs = append(validJobs, LinkedInWithScraper()...)
-	// validJobs = append(validJobs, TestGorilla()...)
-	// validJobs = append(validJobs, Workable()...)
-	// validJobs = append(validJobs, RemoteAfrica()...)
-	validJobs = append(validJobs, platform.GolangProjects()...)
+	// validJobs = append(validJobs, platform.LinkedInUsingRapidApi()...)
+	// validJobs = append(validJobs, platform.LinkedInWithScraper()...)
+	// validJobs = append(validJobs, platform.TestGorilla()...)
+	// validJobs = append(validJobs, platform.Workable()...)
+	// validJobs = append(validJobs, platform.RemoteAfrica()...)
+	// validJobs = append(validJobs, platform.GolangProjects()...)
+	validJobs = append(validJobs, platform.BreezyHr()...)
 	return validJobs
 
 }

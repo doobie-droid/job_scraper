@@ -5,3 +5,4 @@
 3. [Workable](https://www.workable.com/) -> data from workable is pooled using a web scraper checking out their jobs page
 4. [RemoteAfrica](https://remoteafrica.io/) -> data from remoteAfrica is pooled using a web scraper checking out their jobs page
 5. [GolangProjects](https://www.golangprojects.com/) -> data from Golang Projects is pooled using a scraper. It only contains golang jobs and it only contains remote or non-remote type jobs
+6. [BreezyHr](https://breezy.hr/) -> This uses googles api to cumulate a list of of all the companies that use breezy.hr, then uses a web crawler to visit all those company pages
