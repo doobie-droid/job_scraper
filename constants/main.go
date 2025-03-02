@@ -1,27 +1,29 @@
 package constants
 
 import (
-	"doobie-droid/job-scraper/utilities"
+	"doobie-droid/job-scraper/config"
 	"strings"
 	"time"
 )
 
-const MAX_OPEN_CONNECTIONS = 10
-const MAX_IDLE_CONNECTIONS = 10
-const DB_TIMEOUT = 3 * time.Second
+const (
+	MAX_OPEN_CONNECTIONS = 10
+	MAX_IDLE_CONNECTIONS = 10
+	DB_TIMEOUT           = 3 * time.Second
+)
 
-// TODO change GetENV to config usage
-
-var LINKEDIN_EMAIL = utilities.GetEnv("LINKEDIN_EMAIL")
-var LINKEDIN_PASSWORD = utilities.GetEnv("LINKEDIN_PASSWORD")
-var VALID_KEYWORDS = utilities.GetEnv("VALID_KEYWORDS")
-var RAPID_API_KEY = utilities.GetEnv("RAPID_API_KEY")
-var RAPID_API_URL = utilities.GetEnv("RAPID_API_URL")
-var DATE_POSTED string = utilities.GetEnvOrUseDefault("DATE_POSTED", "past24Hours")
-var JOB_KEYWORD string = utilities.GetEnvOrUseDefault("JOB_KEYWORD", "golang")
-var LOCATION string = utilities.GetEnvOrUseDefault("LOCATION", "NGA")
-var LOCATION_TYPE string = utilities.GetEnvOrUseDefault("LOCATION_TYPE", "Remote")
-var CITY string = utilities.GetEnvOrUseDefault("CITY", "LAGOS")
+var (
+	LINKEDIN_EMAIL    = config.Cfg.LinkedinEmail
+	LINKEDIN_PASSWORD = config.Cfg.LinkedinPassword
+	VALID_KEYWORDS    = config.Cfg.ValidKeywords
+	RAPID_API_KEY     = config.Cfg.RapidAPIKey
+	RAPID_API_URL     = config.Cfg.RapidAPIURL
+	DATE_POSTED       = config.Cfg.DatePosted
+	JOB_KEYWORD       = config.Cfg.JobKeyword
+	LOCATION          = config.Cfg.Location
+	LOCATION_TYPE     = config.Cfg.LocationType
+	CITY              = config.Cfg.City
+)
 
 func GetLinkedInDurationCode() string {
 	DurationOfPostingToDurationCode := map[string]string{"past24hours": "r86400", "pastweek": "r604800", "pastmonth": "r2592000"}
