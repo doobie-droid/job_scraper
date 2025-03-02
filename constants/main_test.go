@@ -60,3 +60,23 @@ func TestGetWorkableDurationCode(t *testing.T) {
 		}
 	}
 }
+
+func TestGetLinkedInDurationCode(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"past24Hours", "r86400"},
+		{"pastWeek", "r604800"},
+		{"pastMonth", "r2592000"},
+		{"invalid", ""},
+	}
+
+	for _, tc := range tests {
+		DATE_POSTED = tc.input
+		got := GetLinkedInDurationCode()
+		if got != tc.expected {
+			t.Errorf("GetLinkedInDurationCode(%s) expected = %s; but got %s", tc.input, got, tc.expected)
+		}
+	}
+}
