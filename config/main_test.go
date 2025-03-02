@@ -5,8 +5,8 @@ import (
 )
 
 func TestConfigInitialization(t *testing.T) {
-	EnvPath = "../.env.example"
 
+	EnvPath = "../.env.example"
 	Cfg := NewConfig()
 
 	if Cfg.LinkedinEmail != "clarencesolutions.inc@gmail.com" {

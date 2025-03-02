@@ -2,7 +2,6 @@ package platforms
 
 import (
 	"context"
-	"doobie-droid/job-scraper/constants"
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"fmt"
@@ -14,21 +13,21 @@ import (
 // TODO add date checker that does not check past the date in the .env and also customize for infinite scroll
 var RemoteAfricaUrl = "https://remoteafrica.io/"
 
-func RemoteAfrica() []*data.Job {
+func (platform *Platform) RemoteAfrica() []*data.Job {
 
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
-	countOfValidJobs, err := getCountOfAvailableRemoteAfricaJobs(ctx)
+	countOfValidJobs, err := platform.getCountOfAvailableRemoteAfricaJobs(ctx)
 	fmt.Println(countOfValidJobs)
 	if err != nil {
 		fmt.Println("we could not get count of available remote africa jobs:", err)
 	}
 
-	return getListOfValidRemoteAfricaJobs(countOfValidJobs, ctx)
+	return platform.getListOfValidRemoteAfricaJobs(countOfValidJobs, ctx)
 }
 
-func getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
+func (platform *Platform) getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
 	var listOfValidJobs []*data.Job
 	jobRepo := job.NewJobConnection()
 	_ = jobRepo
@@ -52,7 +51,7 @@ func getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Contex
 			Title:    jobTitle,
 			URL:      jobUrl,
 			Company:  data.Company{Name: companyTitle},
-			Location: constants.LOCATION_TYPE,
+			Location: platform.Cfg.LocationType,
 		}
 		if jobRepo.Exists(&job) {
 			continue
@@ -65,7 +64,7 @@ func getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Contex
 	return listOfValidJobs
 }
 
-func getCountOfAvailableRemoteAfricaJobs(ctx context.Context) (int, error) {
+func (platform *Platform) getCountOfAvailableRemoteAfricaJobs(ctx context.Context) (int, error) {
 	searchBar := "input[name='query']"
 	availableJobsElement := "span.ais-Stats-text"
 	siteLogo := "a.navbar-brand"
@@ -76,7 +75,7 @@ func getCountOfAvailableRemoteAfricaJobs(ctx context.Context) (int, error) {
 		chromedp.WaitVisible(siteLogo, chromedp.ByQuery),
 		chromedp.Sleep(5*time.Second),
 		chromedp.ScrollIntoView(buttonAtLevelOfInfiniteScroll),
-		chromedp.SendKeys(searchBar, constants.JOB_KEYWORD, chromedp.ByQuery),
+		chromedp.SendKeys(searchBar, platform.Cfg.JobKeyword, chromedp.ByQuery),
 		chromedp.WaitVisible(availableJobsElement, chromedp.ByQuery),
 		chromedp.Sleep(5*time.Second),
 		chromedp.Text(availableJobsElement, &availableJobs),

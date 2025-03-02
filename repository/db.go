@@ -2,9 +2,10 @@ package repository
 
 import (
 	"database/sql"
+	"doobie-droid/job-scraper/config"
 	"doobie-droid/job-scraper/constants"
-	"doobie-droid/job-scraper/utilities"
 	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -38,9 +39,9 @@ func CreateDBConnection() (*sql.DB, error) {
 }
 
 func createDataSourceName() string {
-	userName := utilities.GetEnv("DB_USERNAME")
-	password := utilities.GetEnv("DB_PASSWORD")
-	dbName := utilities.GetEnv("DB_NAME")
+	userName := config.GetEnv("DB_USERNAME")
+	password := config.GetEnv("DB_PASSWORD")
+	dbName := config.GetEnv("DB_NAME")
 
 	return fmt.Sprintf("%s:%s@/%s", userName, password, dbName)
 }

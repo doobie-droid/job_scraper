@@ -2,7 +2,6 @@ package platforms
 
 import (
 	"context"
-	"doobie-droid/job-scraper/constants"
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"fmt"
@@ -15,15 +14,15 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-var linkedInJobUrl = fmt.Sprintf("https://www.linkedin.com/jobs/search/?%s&%s&%s&%s",
-	fmt.Sprint("f_WT=", constants.GetLinkedInLocationType()),
-	fmt.Sprint("f_TPR=", constants.GetLinkedInDurationCode()),
-	fmt.Sprint("geoId=", constants.GetLinkedInLocationId()),
-	fmt.Sprint("keywords=", constants.JOB_KEYWORD),
-)
 var pictureAvatarDisplay = "#ember17"
 
-func LinkedInWithScraper() []*data.Job {
+func (platform *Platform) LinkedInWithScraper() []*data.Job {
+	var linkedInJobUrl = fmt.Sprintf("https://www.linkedin.com/jobs/search/?%s&%s&%s&%s",
+		fmt.Sprint("f_WT=", platform.getLinkedInLocationType()),
+		fmt.Sprint("f_TPR=", platform.getLinkedInDurationCode()),
+		fmt.Sprint("geoId=", platform.getLinkedInLocationId()),
+		fmt.Sprint("keywords=", platform.Cfg.JobKeyword),
+	)
 	userDataDir := "./chromedp-profile"
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.UserDataDir(userDataDir),
@@ -36,13 +35,13 @@ func LinkedInWithScraper() []*data.Job {
 	defer cancel()
 
 	if !sessionExists() {
-		err := signInToLinkedIn(ctx)
+		err := platform.signInToLinkedIn(ctx)
 		if err != nil {
 			log.Fatal("could not sign in", err)
 		}
 	}
 
-	countOfAvailableJobs, err := getCountOfAvailableJobs(ctx)
+	countOfAvailableJobs, err := getCountOfAvailableJobs(ctx, linkedInJobUrl)
 
 	if err != nil {
 		log.Fatal("could not get count of available jobs", err)
@@ -51,7 +50,7 @@ func LinkedInWithScraper() []*data.Job {
 	return getListOfValidJobs(countOfAvailableJobs, ctx)
 }
 
-func signInToLinkedIn(ctx context.Context) error {
+func (platform *Platform) signInToLinkedIn(ctx context.Context) error {
 	var signInButton string = ".sign-in-form__sign-in-cta"
 	var emailField string = "input#username"
 	var passwordField string = "input#password"
@@ -62,8 +61,8 @@ func signInToLinkedIn(ctx context.Context) error {
 		chromedp.Click(signInButton, chromedp.NodeVisible),
 		chromedp.Sleep(3*time.Second),
 		chromedp.WaitVisible(emailField),
-		chromedp.SendKeys(emailField, constants.LINKEDIN_EMAIL),
-		chromedp.SendKeys(passwordField, constants.LINKEDIN_PASSWORD),
+		chromedp.SendKeys(emailField, platform.Cfg.LinkedinEmail),
+		chromedp.SendKeys(passwordField, platform.Cfg.LinkedinPassword),
 		chromedp.Sleep(2*time.Second),
 		chromedp.Click(submitButton, chromedp.NodeVisible),
 		chromedp.Sleep(10*time.Second),
@@ -71,12 +70,12 @@ func signInToLinkedIn(ctx context.Context) error {
 
 }
 
-func getCountOfAvailableJobs(ctx context.Context) (int, error) {
+func getCountOfAvailableJobs(ctx context.Context, url string) (int, error) {
 	// TODO: Need to add way of checking if logged in details could not load, since this would stall indefinitely
 	var availableJobsElement = "div.jobs-search-results-list__subtitle span"
 	var availableJobs string
 	err := chromedp.Run(ctx,
-		chromedp.Navigate(linkedInJobUrl),
+		chromedp.Navigate(url),
 		chromedp.Sleep(10*time.Second),
 		chromedp.WaitVisible(pictureAvatarDisplay),
 		chromedp.Text(availableJobsElement, &availableJobs),

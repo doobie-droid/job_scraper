@@ -2,7 +2,6 @@ package platforms
 
 import (
 	"context"
-	"doobie-droid/job-scraper/constants"
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"fmt"
@@ -12,13 +11,13 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-var workableJobUrl = fmt.Sprintf("https://jobs.workable.com/search?%s&%s&%s",
-	fmt.Sprintf("location=%s", constants.CITY),
-	fmt.Sprintf("day_range=%s", constants.GetWorkableDurationCode()),
-	fmt.Sprintf("workplace=%s", strings.ToLower(constants.LOCATION_TYPE)),
-)
+func (platform *Platform) Workable() []*data.Job {
+	var workableJobUrl = fmt.Sprintf("https://jobs.workable.com/search?%s&%s&%s",
+		fmt.Sprintf("location=%s", platform.Cfg.City),
+		fmt.Sprintf("day_range=%s", platform.getWorkableDurationCode()),
+		fmt.Sprintf("workplace=%s", strings.ToLower(platform.Cfg.LocationType)),
+	)
 
-func Workable() []*data.Job {
 	userDataDir := "./chromedp-profile"
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.UserDataDir(userDataDir),
@@ -30,14 +29,14 @@ func Workable() []*data.Job {
 	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
 
-	countOfValidJobs, err := getCountOfAvailableWorkableJobs(ctx)
+	countOfValidJobs, err := platform.getCountOfAvailableWorkableJobs(ctx, workableJobUrl)
 	if err != nil {
 		fmt.Println("we could not get count of available jobs:", err)
 	}
-	return getListOfValidWorkableJobs(countOfValidJobs, ctx)
+	return platform.getListOfValidWorkableJobs(countOfValidJobs, ctx)
 }
 
-func getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
+func (platform *Platform) getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
 	listOfValidJobs := []*data.Job{}
 	showMoreButton := "button.secondary__default--2ySVn"
 	jobTitleDiv := "a.jobCardDetails__link--fXxEi"
@@ -73,7 +72,7 @@ func getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) [
 			Title:    jobTitle,
 			URL:      jobUrl,
 			Company:  data.Company{Name: companyTitle},
-			Location: constants.LOCATION_TYPE,
+			Location: platform.Cfg.LocationType,
 		}
 		if jobRepo.Exists(&job) {
 			continue
@@ -87,11 +86,11 @@ func getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) [
 	return listOfValidJobs
 }
 
-func getCountOfAvailableWorkableJobs(ctx context.Context) (int, error) {
+func (platform *Platform) getCountOfAvailableWorkableJobs(ctx context.Context, url string) (int, error) {
 	var availableJobsElement = "div.jobsMasterDetailView__title--2bJIW"
 	var availableJobs string
 	err := chromedp.Run(ctx,
-		chromedp.Navigate(workableJobUrl),
+		chromedp.Navigate(url),
 		chromedp.Sleep(10*time.Second),
 		chromedp.WaitVisible(availableJobsElement),
 		chromedp.Text(availableJobsElement, &availableJobs),
@@ -101,4 +100,9 @@ func getCountOfAvailableWorkableJobs(ctx context.Context) (int, error) {
 	}
 
 	return getCount(availableJobs)
+}
+
+func (platform *Platform) getWorkableDurationCode() string {
+	DurationOfPostingToDurationCode := map[string]string{"past24hours": "1", "pastweek": "7", "pastmonth": "30"}
+	return DurationOfPostingToDurationCode[strings.ToLower(platform.Cfg.DatePosted)]
 }

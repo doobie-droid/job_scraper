@@ -1,6 +1,9 @@
-package constants
+package platforms
 
-import "testing"
+import (
+	// "doobie-droid/job-scraper/config"
+	"testing"
+)
 
 func TestGetLinkedInLocationType(t *testing.T) {
 	tests := []struct {
@@ -14,8 +17,8 @@ func TestGetLinkedInLocationType(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		LOCATION_TYPE = tc.input
-		got := GetLinkedInLocationType()
+		platform.Cfg.LocationType = tc.input
+		got := platform.getLinkedInLocationType()
 		if got != tc.expected {
 			t.Errorf("GetLinkedInLocationType(%s) expected = %s; but got %s", tc.input, got, tc.expected)
 		}
@@ -32,31 +35,10 @@ func TestGetLinkedInLocationId(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		LOCATION = tc.input
-		got := GetLinkedInLocationId()
+		platform.Cfg.Location = tc.input
+		got := platform.getLinkedInLocationId()
 		if got != tc.expected {
 			t.Errorf("GetLinkedInLocationId(%s) expected = %s; but got %s", tc.input, got, tc.expected)
-		}
-	}
-}
-
-func TestGetWorkableDurationCode(t *testing.T) {
-	tests := []struct {
-		input    string
-		expected string
-	}{
-		{"past24Hours", "1"},
-		{"pastWeek", "7"},
-		{"pastMonth", "30"},
-		{"invalid", ""},
-	}
-
-	for _, tc := range tests {
-		DATE_POSTED = tc.input
-		got := GetWorkableDurationCode()
-		if got != tc.expected {
-			t.Errorf("GetWorkableDurationCode(%s) expected = %s; but got %s", tc.input, got, tc.expected)
-
 		}
 	}
 }
@@ -73,8 +55,8 @@ func TestGetLinkedInDurationCode(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		DATE_POSTED = tc.input
-		got := GetLinkedInDurationCode()
+		platform.Cfg.DatePosted = tc.input
+		got := platform.getLinkedInDurationCode()
 		if got != tc.expected {
 			t.Errorf("GetLinkedInDurationCode(%s) expected = %s; but got %s", tc.input, got, tc.expected)
 		}

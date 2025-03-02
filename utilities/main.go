@@ -2,44 +2,28 @@ package utilities
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"path/filepath"
-	"strings"
-
-	"github.com/joho/godotenv"
+	"regexp"
+	"time"
 )
 
-func GetEnv(key string) string {
-	err := godotenv.Load(getRootEnvPath())
+// receives dateString in the format January 2028 and returns whether it exists in this month or the previous
+func IsLessThanTwoMonths(dateString string) (bool, error) {
+
+	fmt.Println(removeParentheses(dateString))
+	layout := "2 January 2006"
+
+	parsedTime, err := time.Parse(layout, fmt.Sprintf("28 %s", dateString))
 	if err != nil {
-		log.Fatal("Error loading .env file", err.Error())
+		return false, fmt.Errorf("invalid date format: %v", err)
 	}
-	if os.Getenv(key) == "" {
-		panic(fmt.Sprintf("pls load .env key %s in the .env file", key))
-	}
-	return os.Getenv(key)
+
+	oneMonthAgo := time.Now().AddDate(0, -1, 0)
+
+	return parsedTime.Year() == oneMonthAgo.Year() &&
+		(parsedTime.Month() == oneMonthAgo.Month() || parsedTime.Month() == time.Now().Month()), nil
 }
 
-func GetEnvOrUseDefault(key string, defaultValue string) string {
-	envValue := GetEnv(key)
-	if envValue == "" {
-		return defaultValue
-	}
-	return envValue
-}
-
-func getRootEnvPath() string {
-	workingDirectory, err := os.Getwd()
-	if err != nil {
-		log.Fatal("Error getting working directory:", err)
-	}
-
-	normalizedPath := filepath.ToSlash(workingDirectory)
-
-	pathAsArray := strings.Split(normalizedPath, "job_scraper")
-	rootPath := pathAsArray[0]
-
-	envPath := filepath.Join(rootPath, "/job_scraper/.env")
-	return envPath
+func removeParentheses(input string) string {
+	re := regexp.MustCompile(`[\(\)]`)
+	return re.ReplaceAllString(input, "")
 }

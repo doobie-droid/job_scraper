@@ -18,8 +18,9 @@ func TestJobIsValid(t *testing.T) {
 	for _, testCase := range testCases {
 		job := new(Job)
 		job.Title = testCase.jobTitle
-		if job.IsValid() != testCase.ExpectedOutcome {
-			t.Errorf("Expected job is valid to be %t, Got %t", testCase.ExpectedOutcome, job.IsValid())
+		jobIsValid := job.IsValid()
+		if jobIsValid != testCase.ExpectedOutcome {
+			t.Errorf("Expected job is valid to be %t, Got %t", testCase.ExpectedOutcome, jobIsValid)
 		}
 	}
 

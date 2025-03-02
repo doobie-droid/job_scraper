@@ -24,6 +24,7 @@ type Config struct {
 }
 
 func NewConfig() *Config {
+
 	return &Config{
 		LinkedinEmail:    GetEnv("LINKEDIN_EMAIL"),
 		LinkedinPassword: GetEnv("LINKEDIN_PASSWORD"),
