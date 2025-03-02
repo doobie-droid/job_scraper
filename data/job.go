@@ -80,6 +80,11 @@ func (job *Job) GetSlug() string {
 		slug := urlAsArray[1]
 		return fmt.Sprintf("remote-africa-%s", slug)
 	}
+	if job.Platform == GolangProjects {
+		urlAsArray := strings.Split(job.URL, ".com/")
+		slug := urlAsArray[1]
+		return fmt.Sprintf("golang-projects-%s", slug[len(slug)-20:len(slug)-1])
+	}
 	return ""
 }
 
@@ -88,6 +93,19 @@ func (job *Job) IsValid() bool {
 	validKeywordsArray := strings.Split(validKeywords, ",")
 	for _, validJobKeyword := range validKeywordsArray {
 		if strings.Contains(strings.ToLower(job.Title), strings.ToLower(validJobKeyword)) {
+			return true
+		}
+	}
+	return false
+}
+
+func (job *Job) IsValidLocation(locationString string) bool {
+	conf := config.NewConfig()
+	validLocations := conf.ValidLocations
+	validLocationsArray := strings.Split(validLocations, ",")
+	validLocationsArray = append(validLocationsArray, "worldwide", conf.City, conf.Location)
+	for _, validLocation := range validLocationsArray {
+		if strings.Contains(strings.ToLower(locationString), strings.ToLower(validLocation)) {
 			return true
 		}
 	}
