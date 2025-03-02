@@ -1,6 +1,7 @@
 package platforms
 
 import (
+	"doobie-droid/job-scraper/constants"
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"encoding/json"
@@ -17,7 +18,8 @@ type LinkedIn struct {
 func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 	jobRepo := job.NewJobConnection()
 	_ = jobRepo
-	url := fmt.Sprintf("https://linkedin-data-api.p.rapidapi.com/search-job?%s&%s&%s",
+	url := fmt.Sprintf("https://%s/search-job?%s&%s&%s",
+		constants.RAPID_API_URL,
 		fmt.Sprint("keywords=", platform.Cfg.JobKeyword),
 		fmt.Sprint("locationID=", platform.getLinkedInLocationId()),
 		fmt.Sprint("datePosted=", platform.Cfg.DatePosted),
@@ -25,7 +27,7 @@ func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 	req, _ := http.NewRequest("GET", url, nil)
 
 	req.Header.Add("x-rapidapi-key", platform.Cfg.RapidAPIKey)
-	req.Header.Add("x-rapidapi-host", platform.Cfg.RapidAPIURL)
+	req.Header.Add("x-rapidapi-host", constants.RAPID_API_URL)
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {

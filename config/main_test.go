@@ -25,10 +25,6 @@ func TestConfigInitialization(t *testing.T) {
 		t.Errorf("Expected RapidAPIKey to be '2169ce24cbmsh4b0c1jsn8370dfe5dfd5', got '%s'", Cfg.RapidAPIKey)
 	}
 
-	if Cfg.RapidAPIURL != "linkedin-data-api.p.rapidapi.com" {
-		t.Errorf("Expected RapidAPIURL to be 'linkedin-data-api.p.rapidapi.com', got '%s'", Cfg.RapidAPIURL)
-	}
-
 	if Cfg.DatePosted != "past24Hours" {
 		t.Errorf("Expected DatePosted to be 'past24Hours', got '%s'", Cfg.DatePosted)
 	}

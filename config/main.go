@@ -15,7 +15,6 @@ type Config struct {
 	LinkedinPassword string
 	ValidKeywords    string
 	RapidAPIKey      string
-	RapidAPIURL      string
 	DatePosted       string
 	JobKeyword       string
 	Location         string
@@ -31,7 +30,6 @@ func NewConfig() *Config {
 		LinkedinPassword: GetEnv("LINKEDIN_PASSWORD"),
 		ValidKeywords:    GetEnv("VALID_KEYWORDS"),
 		RapidAPIKey:      GetEnv("RAPID_API_KEY"),
-		RapidAPIURL:      GetEnv("RAPID_API_URL"),
 		DatePosted:       GetEnvOrUseDefault("DATE_POSTED", "past24Hours"),
 		JobKeyword:       GetEnvOrUseDefault("JOB_KEYWORD", "golang"),
 		Location:         GetEnvOrUseDefault("LOCATION", "NGA"),
