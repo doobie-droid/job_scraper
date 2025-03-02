@@ -1,104 +1,51 @@
 package config
 
 import (
-	"os"
 	"testing"
 )
 
 func TestConfigInitialization(t *testing.T) {
-	err := os.Setenv("LINKEDIN_EMAIL", "test@example.com")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("LINKEDIN_PASSWORD", "password")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("VALID_KEYWORDS", "golang,remote,backend")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("RAPID_API_KEY", "testapikey")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("RAPID_API_URL", "linkedin-data-api.p.rapidapi.com")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("DATE_POSTED", "pastweek")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("JOB_KEYWORD", "golang")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("LOCATION", "NG")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("LOCATION_TYPE", "On-Site")
-	if err != nil {
-		return
-	}
-	err = os.Setenv("CITY", "Lagos")
-	if err != nil {
-		return
+	EnvPath = "../.env.example"
+
+	Cfg := NewConfig()
+
+	if Cfg.LinkedinEmail != "clarencesolutions.inc@gmail.com" {
+		t.Errorf("Expected LinkedinEmail to be 'clarencesolutions.inc@gmail.com', got '%s'", Cfg.LinkedinEmail)
 	}
 
-	// Reinitialize config to reflect new env variables
-	Cfg = &Config{
-		LinkedinEmail:    os.Getenv("LINKEDIN_EMAIL"),
-		LinkedinPassword: os.Getenv("LINKEDIN_PASSWORD"),
-		ValidKeywords:    os.Getenv("VALID_KEYWORDS"),
-		RapidAPIKey:      os.Getenv("RAPID_API_KEY"),
-		RapidAPIURL:      os.Getenv("RAPID_API_URL"),
-		DatePosted:       os.Getenv("DATE_POSTED"),
-		JobKeyword:       os.Getenv("JOB_KEYWORD"),
-		Location:         os.Getenv("LOCATION"),
-		LocationType:     os.Getenv("LOCATION_TYPE"),
-		City:             os.Getenv("CITY"),
+	if Cfg.LinkedinPassword != "pinkponyclub" {
+		t.Errorf("Expected LinkedinPassword to be 'pinkponyclub', got '%s'", Cfg.LinkedinPassword)
 	}
 
-	// Running test cases against specific conditions
-	if Cfg.LinkedinEmail != "test@example.com" {
-		t.Errorf("Expected LinkedinEmail to be 'test@example.com', got '%s'", Cfg.LinkedinEmail)
+	if Cfg.ValidKeywords != "go,laravel,backend,frontend,vue,nuxt,back-end,front-end,back end,front end" {
+		t.Errorf("Expected ValidKeywords to be 'go,laravel,backend,frontend,vue,nuxt,back-end,front-end,back end,front end', got '%s'", Cfg.ValidKeywords)
 	}
 
-	if Cfg.LinkedinPassword != "password" {
-		t.Errorf("Expected LinkedinPassword to be 'password', got '%s'", Cfg.LinkedinPassword)
-	}
-
-	if Cfg.ValidKeywords != "golang,remote,backend" {
-		t.Errorf("Expected ValidKeywords to be 'golang,remote,backend', got '%s'", Cfg.ValidKeywords)
-	}
-
-	if Cfg.RapidAPIKey != "testapikey" {
-		t.Errorf("Expected RapidAPIKey to be 'testapikey', got '%s'", Cfg.RapidAPIKey)
+	if Cfg.RapidAPIKey != "2169ce24cbmsh4b0c1jsn8370dfe5dfd5" {
+		t.Errorf("Expected RapidAPIKey to be '2169ce24cbmsh4b0c1jsn8370dfe5dfd5', got '%s'", Cfg.RapidAPIKey)
 	}
 
 	if Cfg.RapidAPIURL != "linkedin-data-api.p.rapidapi.com" {
 		t.Errorf("Expected RapidAPIURL to be 'linkedin-data-api.p.rapidapi.com', got '%s'", Cfg.RapidAPIURL)
 	}
 
-	if Cfg.DatePosted != "pastweek" {
-		t.Errorf("Expected DatePosted to be 'pastweek', got '%s'", Cfg.DatePosted)
+	if Cfg.DatePosted != "past24Hours" {
+		t.Errorf("Expected DatePosted to be 'past24Hours', got '%s'", Cfg.DatePosted)
 	}
 
 	if Cfg.JobKeyword != "golang" {
 		t.Errorf("Expected JobKeyword to be 'golang', got '%s'", Cfg.JobKeyword)
 	}
 
-	if Cfg.Location != "NG" {
-		t.Errorf("Expected Location to be 'NG', got '%s'", Cfg.Location)
+	if Cfg.Location != "NGA" {
+		t.Errorf("Expected Location to be 'NGA', got '%s'", Cfg.Location)
 	}
 
-	if Cfg.LocationType != "On-Site" {
-		t.Errorf("Expected LocationType to be 'On-Site', got '%s'", Cfg.LocationType)
+	if Cfg.LocationType != "Remote" {
+		t.Errorf("Expected LocationType to be 'Remote', got '%s'", Cfg.LocationType)
 	}
 
-	if Cfg.City != "Lagos" {
-		t.Errorf("Expected City to be 'Lagos', got '%s'", Cfg.City)
+	if Cfg.City != "LAGOS" {
+		t.Errorf("Expected City to be 'LAGOS', got '%s'", Cfg.City)
 	}
 }
