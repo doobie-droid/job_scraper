@@ -38,8 +38,9 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
    ```
    go mod tidy
    ```
+2. [Setup Chrome Headless](https://medium.com/@osaswijojames/installing-chrome-headless-on-wsl-a-step-by-step-guide-for-automation-enthusiasts-0decea47f4c7)
 
-2. Run database migrations in mysql
+3. Run database migrations in mysql
 
 - Log in to mysql
 
@@ -56,7 +57,7 @@ I decided to build a job scraper pooling data from the following [SOURCES](./pla
   ```
   SOURCE ./sql/job_migration.sql
   ```
-3. Run the application
+4. Run the application
 
 - Create your own .env file from the .env.example
 
