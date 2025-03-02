@@ -15,6 +15,7 @@ const (
 	Workable
 	RemoteAfrica
 	GolangProjects
+	BreezyHr
 )
 
 type Job struct {
