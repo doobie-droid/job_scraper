@@ -38,7 +38,7 @@ func TestConfigInitialization(t *testing.T) {
 	if err != nil {
 		return
 	}
-	err = os.Setenv("LOCATION_TYPE", "Remote")
+	err = os.Setenv("LOCATION_TYPE", "On-Site")
 	if err != nil {
 		return
 	}
@@ -94,8 +94,8 @@ func TestConfigInitialization(t *testing.T) {
 		t.Errorf("Expected Location to be 'NG', got '%s'", Cfg.Location)
 	}
 
-	if Cfg.LocationType != "Remote" {
-		t.Errorf("Expected LocationType to be 'Remote', got '%s'", Cfg.LocationType)
+	if Cfg.LocationType != "On-Site" {
+		t.Errorf("Expected LocationType to be 'On-Site', got '%s'", Cfg.LocationType)
 	}
 
 	if Cfg.City != "Lagos" {
