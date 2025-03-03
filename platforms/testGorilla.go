@@ -56,7 +56,6 @@ func getListOfValidTestGorillaJobs(countOfAvailableJobs int, ctx context.Context
 	jobTitleDiv := "h3.sc-58c38bba-6.fYynjg"
 	jobUrlLink := "a.sc-58c38bba-5.hoErbF"
 	jobRepo := job.NewJobConnection()
-	_ = jobRepo
 	var jobUrl, jobTitle string
 	for index := range countOfAvailableJobs {
 

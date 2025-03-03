@@ -17,7 +17,6 @@ type LinkedIn struct {
 
 func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 	jobRepo := job.NewJobConnection()
-	_ = jobRepo
 	url := fmt.Sprintf("https://%s/search-job?%s&%s&%s",
 		constants.RAPID_API_URL,
 		fmt.Sprint("keywords=", platform.Cfg.JobKeyword),

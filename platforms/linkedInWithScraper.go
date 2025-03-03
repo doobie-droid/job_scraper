@@ -96,7 +96,6 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 	var jobDetails, jobTitle, jobCompany, jobLocation string
 	var firstJobDiv = "li.ember-view"
 	jobRepo := job.NewJobConnection()
-	_ = jobRepo
 	var currentURL string
 	var listOfValidJobs []*data.Job
 	for range countOfAvailableJobs {

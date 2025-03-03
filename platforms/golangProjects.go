@@ -47,7 +47,6 @@ func (platform *Platform) getListOfValidGolangProjectJobs(ctx context.Context) [
 	totalJobCount := numberOfJobsDisplayedPerInfiniteLoad
 	var listOfValidJobs []*data.Job
 	jobRepo := job.NewJobConnection()
-	_ = jobRepo
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(golangProjectsJobUrl))
 	if err != nil {

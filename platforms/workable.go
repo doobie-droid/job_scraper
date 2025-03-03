@@ -43,7 +43,6 @@ func (platform *Platform) getListOfValidWorkableJobs(countOfAvailableJobs int, c
 	jobUrlLink := "a.jobCard__overlay--29JV5"
 	companyLink := "a.companyName__link--2ntbf"
 	jobRepo := job.NewJobConnection()
-	_ = jobRepo
 	var jobUrl, jobTitle, companyTitle string
 	for index := range countOfAvailableJobs {
 		if (index)%20 == 0 && index > 0 {

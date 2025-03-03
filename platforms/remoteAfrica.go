@@ -30,7 +30,6 @@ func (platform *Platform) RemoteAfrica() []*data.Job {
 func (platform *Platform) getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
 	var listOfValidJobs []*data.Job
 	jobRepo := job.NewJobConnection()
-	_ = jobRepo
 	jobTitleDiv := "a.sc-d603e0a4-0.hazAqL.fw-bold.align-items-center.flex-2.truncate"
 	jobUrlLink := jobTitleDiv
 	companyLink := "span.company-name"
