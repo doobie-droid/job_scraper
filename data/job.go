@@ -86,6 +86,14 @@ func (job *Job) GetSlug() string {
 		slug := urlAsArray[1]
 		return fmt.Sprintf("golang-projects-%s", slug[len(slug)-20:len(slug)-1])
 	}
+
+	if job.Platform == BreezyHr {
+		urlAsArray := strings.Split(job.URL, "p/")
+		stringContainingId := urlAsArray[len(urlAsArray)-1]
+		stringContainingIdAsArray := strings.Split(stringContainingId, "-")
+		Id := stringContainingIdAsArray[0]
+		return fmt.Sprintf("breezy-hr-%s", Id)
+	}
 	return ""
 }
 
@@ -101,6 +109,9 @@ func (job *Job) IsValid() bool {
 }
 
 func (job *Job) IsValidLocation(locationString string) bool {
+	if strings.Trim(locationString, " ") == "" {
+		return true
+	}
 	conf := config.NewConfig()
 	validLocations := conf.ValidLocations
 	validLocationsArray := strings.Split(validLocations, ",")
