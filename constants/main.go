@@ -1,8 +1,6 @@
 package constants
 
 import (
-	// "doobie-droid/job-scraper/config"
-	// "strings"
 	"time"
 )
 
