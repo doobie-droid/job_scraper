@@ -8,6 +8,7 @@ import (
 	"doobie-droid/job-scraper/repository"
 	"fmt"
 	"log"
+	"strings"
 )
 
 type Job struct {
@@ -44,8 +45,10 @@ func (jobRepo *Job) Exists(job *data.Job) bool {
 	)
 
 	if err != nil {
+		if strings.Contains(err.Error(), "no rows in result set") {
+			return false
+		}
 		fmt.Println("error in checking job exists;", err)
-		return false
 	}
 
 	return job.ID != 0
