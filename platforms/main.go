@@ -3,6 +3,7 @@ package platforms
 import (
 	"doobie-droid/job-scraper/config"
 	"doobie-droid/job-scraper/data"
+	"fmt"
 )
 
 var EnvPath = "./.env"
@@ -23,6 +24,9 @@ func GetValidJobs() []*data.Job {
 	validJobs = append(validJobs, platform.RemoteAfrica()...)
 	validJobs = append(validJobs, platform.GolangProjects()...)
 	validJobs = append(validJobs, platform.BreezyHr()...)
+	for _, job := range validJobs {
+		fmt.Println(job.Title, job.Platform, job.URL)
+	}
 
 	//TODO ADD Package to send scraped information as email // message to whatsapp
 	return validJobs
