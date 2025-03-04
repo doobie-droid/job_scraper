@@ -10,6 +10,6 @@ func main() {
 
 	fmt.Println("valid Jobs")
 	for _, job := range validJobs {
-		fmt.Println(job.Title, job.URL)
+		fmt.Printf("%s-%s-%s\n", job.Title, job.Company, job.URL)
 	}
 }

@@ -15,6 +15,7 @@ import (
 )
 
 func (platform *Platform) BreezyHr() []*data.Job {
+	log.Println("started collecting jobs via breezyHr using crawler")
 	var listOfValidJobs []*data.Job
 	maxNumberOfSearchResult := 101
 	for index := 1; index < maxNumberOfSearchResult; index += 10 {
@@ -49,7 +50,7 @@ func (platform *Platform) BreezyHr() []*data.Job {
 		}
 
 	}
-
+	log.Println("done collecting jobs via BreezyHr using crawler")
 	return listOfValidJobs
 }
 
@@ -103,7 +104,6 @@ func (platform *Platform) extractValidJobsFromSite(companyUrl string) []*data.Jo
 }
 
 func getCountOfJobElements(jobUrl string, ctx context.Context) int {
-	fmt.Println(jobUrl)
 	jobTitleDiv := "li.position-details"
 	var jobCount int
 	err := chromedp.Run(ctx,

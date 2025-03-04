@@ -6,10 +6,12 @@ import (
 	"doobie-droid/job-scraper/repository/job"
 	"doobie-droid/job-scraper/utilities"
 	"fmt"
-	"github.com/chromedp/cdproto/target"
-	"github.com/chromedp/chromedp"
+	"log"
 	"strings"
 	"time"
+
+	"github.com/chromedp/cdproto/target"
+	"github.com/chromedp/chromedp"
 )
 
 var golangProjectsJobUrl = "https://www.golangprojects.com/"
@@ -17,6 +19,7 @@ var golangProjectsJobUrl = "https://www.golangprojects.com/"
 // this particular job crawler would only run if your job keyword contains go in it because the platform only lists go jobs.
 // It also defaults to checking for jobs in the last month because there are no ways to filter due to time on the platform
 func (platform *Platform) GolangProjects() []*data.Job {
+	log.Println("started collecting jobs via golang Projects using crawler")
 	if !strings.Contains(strings.ToLower(platform.Cfg.JobKeyword), "go") {
 		return nil
 	}
@@ -36,7 +39,9 @@ func (platform *Platform) GolangProjects() []*data.Job {
 		golangProjectsJobUrl = fmt.Sprintf("%s/golang-remote-jobs.html", golangProjectsJobUrl)
 	}
 
-	return platform.getListOfValidGolangProjectJobs(ctx)
+	validJobs := platform.getListOfValidGolangProjectJobs(ctx)
+	log.Println("done collecting jobs via golang Projects using crawler")
+	return validJobs
 
 }
 

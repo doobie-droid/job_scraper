@@ -19,7 +19,7 @@ var testGorillaJobUrl = "https://www.testgorilla.com/careers"
 // # Todo: refactor all the platforms into their own independent packages with interfaces since you  can see
 // some methods that are repeated e.g. joburl, listofvalidjobs .etc
 func (platform *Platform) TestGorilla() []*data.Job {
-
+	log.Println("started collecting jobs via testGorilla using crawler")
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
@@ -28,8 +28,9 @@ func (platform *Platform) TestGorilla() []*data.Job {
 	if err != nil {
 		log.Fatal("could not get count of available jobs", err)
 	}
-
-	return getListOfValidTestGorillaJobs(countOfAvailableJobs, ctx)
+	validJobs := getListOfValidTestGorillaJobs(countOfAvailableJobs, ctx)
+	log.Println("done collecting jobs via testGorilla using crawler")
+	return validJobs
 }
 
 func getCountOfAvailableTestGorillaJobs(ctx context.Context) (int, error) {

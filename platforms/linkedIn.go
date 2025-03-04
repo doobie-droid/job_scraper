@@ -16,6 +16,7 @@ type LinkedIn struct {
 }
 
 func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
+	log.Println("started collecting jobs via linkedin using rapid api")
 	jobRepo := job.NewJobConnection()
 	url := fmt.Sprintf("https://%s/search-jobs?%s&%s&%s",
 		constants.RAPID_API_URL,
@@ -54,11 +55,11 @@ func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 
 	var validJobs []*data.Job
 	for _, newJob := range newJobs {
-		if newJob.IsValid() {
+		if newJob.IsValid() && newJob.IsValidLocation(newJob.Location) {
 			validJobs = append(validJobs, newJob)
 		}
 	}
-
+	log.Println("done collecting jobs via linkedin using rapid api")
 	return validJobs
 
 }

@@ -5,6 +5,7 @@ import (
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -12,6 +13,7 @@ import (
 )
 
 func (platform *Platform) Workable() []*data.Job {
+	log.Println("started collecting jobs via workable using crawler")
 	var workableJobUrl = fmt.Sprintf("https://jobs.workable.com/search?%s&%s&%s",
 		fmt.Sprintf("location=%s", platform.Cfg.City),
 		fmt.Sprintf("day_range=%s", platform.getWorkableDurationCode()),
@@ -33,7 +35,9 @@ func (platform *Platform) Workable() []*data.Job {
 	if err != nil {
 		fmt.Println("we could not get count of available jobs:", err)
 	}
-	return platform.getListOfValidWorkableJobs(countOfValidJobs, ctx)
+	validJobs := platform.getListOfValidWorkableJobs(countOfValidJobs, ctx)
+	log.Println("done collecting jobs via workable using crawler")
+	return validJobs
 }
 
 func (platform *Platform) getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {

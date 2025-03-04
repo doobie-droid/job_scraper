@@ -5,6 +5,7 @@ import (
 	"doobie-droid/job-scraper/data"
 	"doobie-droid/job-scraper/repository/job"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/chromedp/chromedp"
@@ -14,6 +15,7 @@ import (
 var RemoteAfricaUrl = "https://remoteafrica.io/"
 
 func (platform *Platform) RemoteAfrica() []*data.Job {
+	log.Println("started collecting jobs via remoteAfrica using crawler")
 
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
@@ -23,8 +25,9 @@ func (platform *Platform) RemoteAfrica() []*data.Job {
 	if err != nil {
 		fmt.Println("we could not get count of available remote africa jobs:", err)
 	}
-
-	return platform.getListOfValidRemoteAfricaJobs(countOfValidJobs, ctx)
+	validJobs := platform.getListOfValidRemoteAfricaJobs(countOfValidJobs, ctx)
+	log.Println("done collecting jobs via remoteAfrica using crawler")
+	return validJobs
 }
 
 func (platform *Platform) getListOfValidRemoteAfricaJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {

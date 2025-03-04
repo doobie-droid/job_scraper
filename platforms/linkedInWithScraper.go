@@ -17,6 +17,7 @@ import (
 var pictureAvatarDisplay = "#ember17"
 
 func (platform *Platform) LinkedInWithScraper() []*data.Job {
+	log.Println("started collecting jobs via linkedin using crawler")
 	var linkedInJobUrl = fmt.Sprintf("https://www.linkedin.com/jobs/search/?%s&%s&%s&%s",
 		fmt.Sprint("f_WT=", platform.getLinkedInLocationType()),
 		fmt.Sprint("f_TPR=", platform.getLinkedInDurationCode()),
@@ -26,6 +27,8 @@ func (platform *Platform) LinkedInWithScraper() []*data.Job {
 	userDataDir := "./chromedp-profile"
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.UserDataDir(userDataDir),
+		chromedp.Flag("headless", false),
+		chromedp.Flag("start-maximized", true),
 	)
 
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
@@ -46,8 +49,9 @@ func (platform *Platform) LinkedInWithScraper() []*data.Job {
 	if err != nil {
 		log.Fatal("could not get count of available jobs", err)
 	}
-
-	return getListOfValidJobs(countOfAvailableJobs, ctx)
+	validJobs := getListOfValidJobs(countOfAvailableJobs, ctx)
+	log.Println("done collecting jobs via linkedin using crawler")
+	return validJobs
 }
 
 func (platform *Platform) signInToLinkedIn(ctx context.Context) error {
@@ -118,7 +122,7 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 		}
 
 		job := data.Job{
-			Platform: data.LinkedIn,
+			Platform: data.LinkedInCrawler,
 			Title:    jobTitle,
 			Company:  data.Company{Name: jobCompany},
 			URL:      getValidUrl(currentURL),
@@ -128,7 +132,7 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 			continue
 		}
 		jobRepo.InsertJob(&job)
-		if job.IsValid() {
+		if job.IsValid() && job.IsValidLocation(job.Location) {
 			listOfValidJobs = append(listOfValidJobs, &job)
 		}
 	}

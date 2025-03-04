@@ -10,6 +10,7 @@ import (
 
 const (
 	LinkedIn = iota
+	LinkedInCrawler
 	WeWorkRemotely
 	TestGorilla
 	Workable
@@ -62,6 +63,11 @@ func (job *Job) GetSlug() string {
 		urlAsArray := strings.Split(job.URL, "/")
 		jobId := urlAsArray[len(urlAsArray)-1]
 		return jobId
+	}
+	if job.Platform == LinkedInCrawler {
+		urlAsArray := strings.Split(job.URL, "/")
+		jobId := urlAsArray[len(urlAsArray)-1]
+		return fmt.Sprintf("linkedin-crawler-%s", jobId)
 	}
 	if job.Platform == TestGorilla {
 		urlAsArray := strings.Split(job.URL, "jobs/")
