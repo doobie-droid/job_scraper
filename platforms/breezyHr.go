@@ -57,8 +57,6 @@ func (platform *Platform) extractValidJobsFromSite(companyUrl string) []*data.Jo
 	userDataDir := "./chromedp-profile"
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.UserDataDir(userDataDir),
-		chromedp.Flag("headless", false),
-		chromedp.Flag("start-maximized", true),
 	)
 
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
