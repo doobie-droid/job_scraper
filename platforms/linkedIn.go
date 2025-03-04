@@ -17,7 +17,7 @@ type LinkedIn struct {
 
 func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 	jobRepo := job.NewJobConnection()
-	url := fmt.Sprintf("https://%s/search-job?%s&%s&%s",
+	url := fmt.Sprintf("https://%s/search-jobs?%s&%s&%s",
 		constants.RAPID_API_URL,
 		fmt.Sprint("keywords=", platform.Cfg.JobKeyword),
 		fmt.Sprint("locationID=", platform.getLinkedInLocationId()),
@@ -39,7 +39,7 @@ func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 
 	var response data.Response[data.Job]
 	if err := json.Unmarshal([]byte(resBody), &response); err != nil {
-		fmt.Println("Error decoding JSON:", err)
+		log.Println("Error decoding JSON:", err)
 		return nil
 	}
 
