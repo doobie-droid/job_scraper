@@ -71,13 +71,11 @@ func (platform *Platform) signInToLinkedIn(ctx context.Context) error {
 }
 
 func getCountOfAvailableJobs(ctx context.Context, url string) (int, error) {
-	// TODO: Need to add way of checking if logged in details could not load, since this would stall indefinitely
 	var availableJobsElement = "div.jobs-search-results-list__subtitle span"
 	var availableJobs string
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(url),
-		chromedp.Sleep(10*time.Second),
-		chromedp.WaitVisible(pictureAvatarDisplay),
+		chromedp.WaitReady("body", chromedp.ByQuery),
 		chromedp.Text(availableJobsElement, &availableJobs),
 	)
 	if err != nil {
@@ -91,8 +89,8 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 	var closeJobButton = "button.job-card-container__action.job-card-container__action-small.artdeco-button.artdeco-button--muted.artdeco-button--2.artdeco-button--tertiary.ember-view"
 	var jobDetailsDiv = "div.jobs-search__job-details--wrapper"
 	var jobTitleDiv = "h1.t-24.t-bold.inline"
-	var jobCompanyDiv = "div.job-details-jobs-unified-top-card__company-name a.kvxOIgzTihjbTHaLGrgQguzNnXGpbPhmw"
-	var jobLocationDiv = "span.tvm__text.tvm__text--low-emphasis"
+	var jobCompanyDiv = "div.job-details-jobs-unified-top-card__company-name a"
+	var jobLocationDiv = "div.job-details-jobs-unified-top-card__primary-description-container span.tvm__text.tvm__text--low-emphasis"
 	var jobDetails, jobTitle, jobCompany, jobLocation string
 	var firstJobDiv = "li.ember-view"
 	jobRepo := job.NewJobConnection()
@@ -100,23 +98,25 @@ func getListOfValidJobs(countOfAvailableJobs int, ctx context.Context) []*data.J
 	var listOfValidJobs []*data.Job
 	for range countOfAvailableJobs {
 		err := chromedp.Run(ctx,
-			chromedp.Sleep(10*time.Second),
-			chromedp.Click(firstJobDiv),
+			chromedp.WaitReady("body", chromedp.ByQuery),
+			chromedp.Click(firstJobDiv, chromedp.NodeVisible),
 			chromedp.Sleep(2*time.Second),
-			chromedp.Text(jobDetailsDiv, &jobDetails),
-			chromedp.WaitVisible(closeJobButton),
-			chromedp.Click(closeJobButton, chromedp.NodeVisible),
-			chromedp.Text(jobTitleDiv, &jobTitle),
-			chromedp.Text(jobCompanyDiv, &jobCompany),
-			chromedp.Text(jobLocationDiv, &jobLocation),
+			chromedp.Text(jobDetailsDiv, &jobDetails, chromedp.ByQuery),
+			chromedp.WaitVisible(closeJobButton, chromedp.ByQuery),
+			chromedp.Click(closeJobButton, chromedp.ByQuery),
+			chromedp.Text(jobTitleDiv, &jobTitle, chromedp.ByQuery),
+			chromedp.Text(jobCompanyDiv, &jobCompany, chromedp.ByQuery),
+			chromedp.Text(jobLocationDiv, &jobLocation, chromedp.ByQuery),
 			chromedp.Sleep(1*time.Second),
 			chromedp.Location(&currentURL),
 			chromedp.Reload(),
-			chromedp.WaitVisible(pictureAvatarDisplay),
+			chromedp.WaitVisible(pictureAvatarDisplay, chromedp.ByQuery),
 		)
+
 		if err != nil {
 			fmt.Println("error extracting job details", err)
 		}
+
 		job := data.Job{
 			Platform: data.LinkedIn,
 			Title:    jobTitle,
