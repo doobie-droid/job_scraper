@@ -23,6 +23,8 @@ func GetValidJobs() []*data.Job {
 	validJobs = append(validJobs, platform.RemoteAfrica()...)
 	validJobs = append(validJobs, platform.GolangProjects()...)
 	validJobs = append(validJobs, platform.BreezyHr()...)
+
+	//TODO ADD Package to send scraped information as email // message to whatsapp
 	return validJobs
 
 }
