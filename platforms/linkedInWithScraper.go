@@ -167,7 +167,7 @@ func sessionExists() bool {
 func removeQueryParams(invalidUrl string) (validUrl string) {
 	urlAsArray := strings.Split(invalidUrl, "?")
 	urlPartContainingId := urlAsArray[0]
-	return urlPartContainingId
+	return urlPartContainingId[:len(urlPartContainingId)-1]
 }
 
 func goToNextPage(ctx context.Context) {
