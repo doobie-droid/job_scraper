@@ -36,10 +36,9 @@ func (platform *Platform) LinkedInUsingRapidApi() []*data.Job {
 
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	resBody := string(body)
 
 	var response data.Response[data.Job]
-	if err := json.Unmarshal([]byte(resBody), &response); err != nil {
+	if err := json.Unmarshal(body, &response); err != nil {
 		log.Println("Error decoding JSON:", err)
 		return nil
 	}

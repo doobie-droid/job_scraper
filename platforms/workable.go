@@ -12,6 +12,8 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
+type QuerySelector string
+
 func (platform *Platform) Workable() []*data.Job {
 	log.Println("started collecting jobs via workable using crawler")
 	var workableJobUrl = fmt.Sprintf("https://jobs.workable.com/search?%s&%s&%s",
@@ -31,13 +33,35 @@ func (platform *Platform) Workable() []*data.Job {
 	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
 
+	err := acceptCookies(ctx, workableJobUrl, "div.styles__main-buttons--3kJbr button")
+	if err != nil {
+		log.Println("failed to accept cookies", err)
+	}
+
 	countOfValidJobs, err := platform.getCountOfAvailableWorkableJobs(ctx, workableJobUrl)
 	if err != nil {
-		fmt.Println("we could not get count of available jobs:", err)
+		log.Println("we could not get count of available jobs:", err)
+		return nil
 	}
 	validJobs := platform.getListOfValidWorkableJobs(countOfValidJobs, ctx)
 	log.Println("done collecting jobs via workable using crawler")
 	return validJobs
+}
+
+func acceptCookies(ctx context.Context, url string, acceptCookieButton QuerySelector) error {
+	var acceptCookieButtonContent string
+	err := chromedp.Run(ctx,
+		chromedp.Navigate(url),
+		chromedp.Sleep(1*time.Second),
+		chromedp.Evaluate(fmt.Sprintf("document.querySelectorAll('%s')[%d]?.textContent", acceptCookieButton, 0), &acceptCookieButtonContent))
+
+	if err != nil || len(strings.Trim(acceptCookieButtonContent, " ")) == 0 {
+		return err
+	}
+	chromedp.Run(ctx,
+		chromedp.Click(acceptCookieButton, chromedp.NodeVisible))
+
+	return nil
 }
 
 func (platform *Platform) getListOfValidWorkableJobs(countOfAvailableJobs int, ctx context.Context) []*data.Job {
@@ -95,10 +119,9 @@ func (platform *Platform) getCountOfAvailableWorkableJobs(ctx context.Context, u
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(url),
 		chromedp.Sleep(10*time.Second),
-		chromedp.WaitVisible(availableJobsElement),
-		chromedp.Text(availableJobsElement, &availableJobs),
+		chromedp.Evaluate(fmt.Sprintf("document.querySelectorAll('%s')[%d]?.textContent", availableJobsElement, 0), &availableJobs),
 	)
-	if err != nil {
+	if err != nil || len(strings.Trim(availableJobs, " ")) == 0 {
 		return 0, err
 	}
 
