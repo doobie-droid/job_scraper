@@ -26,6 +26,21 @@ func NewJobConnection() *Job {
 	}
 }
 
+func (jobRepo *Job) ClearTable() bool {
+	ctx, cancel := context.WithTimeout(context.Background(), constants.DB_TIMEOUT)
+	defer cancel()
+
+	query := `TRUNCATE TABLE jobs`
+
+	_, err := jobRepo.DB.ExecContext(ctx, query)
+	if err != nil {
+		fmt.Println("error truncating jobs table:", err)
+		return false
+	}
+
+	return true
+}
+
 func (jobRepo *Job) Exists(job *data.Job) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), constants.DB_TIMEOUT)
 	defer cancel()

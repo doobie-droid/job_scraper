@@ -3,6 +3,7 @@ package platforms
 import (
 	"doobie-droid/job-scraper/config"
 	"doobie-droid/job-scraper/data"
+	"doobie-droid/job-scraper/repository/job"
 )
 
 var EnvPath = "./.env"
@@ -15,6 +16,8 @@ func GetValidJobs() []*data.Job {
 	platform := &Platform{}
 	config.EnvPath = EnvPath
 	platform.Cfg = *config.NewConfig()
+	jobRepo := job.NewJobConnection()
+	jobRepo.ClearTable()
 	var validJobs []*data.Job
 	validJobs = append(validJobs, platform.LinkedInWithScraper()...)
 	validJobs = append(validJobs, platform.LinkedInUsingRapidApi()...)
